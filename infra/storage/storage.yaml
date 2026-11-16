@@ -7,7 +7,7 @@
 # Configuration de TP : 1 réplica, pas de TLS, identifiants de lab.
 # À NE JAMAIS utiliser tel quel en production.
 #
-#   Endpoint S3 dans le cluster : http://s3.storage:8333
+#   Endpoint S3 dans le cluster : http://s3.storage.svc.cluster.local:8333
 #   Endpoint S3 depuis le poste : http://localhost:8333   (port-forward)
 #   Interface web (filer)       : http://localhost:8888   (port-forward)
 # =============================================================================
