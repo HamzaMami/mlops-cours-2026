@@ -54,6 +54,8 @@ spec:
       labels:
         app: mlflow
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       enableServiceLinks: false
       containers:
         - name: mlflow
@@ -62,10 +64,9 @@ spec:
           # yamllint disable rule:line-length
           args:
             - >-
-              pip install --no-cache-dir --quiet boto3 &&
               exec mlflow server
               --backend-store-uri sqlite:////mlflow/mlflow.db
-              --artifacts-destination s3://mlflow-artifacts
+              --default-artifact-root /mlflow/artifacts
               --host 0.0.0.0 --port 5000 --workers 2
               --allowed-hosts "localhost:*,127.0.0.1:*,mlflow,mlflow:*,mlflow.mlflow,mlflow.mlflow:*,mlflow.mlflow.svc.cluster.local:*,10.*,172.*,192.168.*"
           # yamllint enable rule:line-length
@@ -73,7 +74,7 @@ spec:
             - secretRef:
                 name: s3-credentials
           env:
-            - { name: MLFLOW_S3_ENDPOINT_URL, value: "http://s3.storage:8333" }
+            - { name: MLFLOW_S3_ENDPOINT_URL, value: "http://s3.storage.svc.cluster.local:8333" }
             - { name: AWS_DEFAULT_REGION, value: us-east-1 }
             # Pas d'exécuteur de tâches en arrière-plan (inutile ici, ~170 Mo par worker)
             - { name: MLFLOW_SERVER_ENABLE_JOB_EXECUTION, value: "false" }
