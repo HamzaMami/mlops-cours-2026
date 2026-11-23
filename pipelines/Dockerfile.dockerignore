@@ -11,4 +11,5 @@ gx/uncommitted/
 !pipelines/requirements.txt
 !pipelines/__init__.py
 !pipelines/stage.py
+!pipelines/stage.py
 **/__pycache__
